@@ -11,17 +11,17 @@ import androidx.recyclerview.widget.RecyclerView
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        fun getTasks(): List<TaskItem> {
-            val templateTasks = mutableListOf<TaskItem>()
-            templateTasks.add(TaskItem("Pay Rent"))
-            templateTasks.add(TaskItem("Get haircut"))
-            templateTasks.add(TaskItem("Buy mom birthday present"))
-            templateTasks.add(TaskItem("Water plants"))
+        fun getTasks(): List<String> {
+            val templateTasks = mutableListOf<String>()
+            templateTasks.add("Pay Rent")
+            templateTasks.add("Get haircut")
+            templateTasks.add("Buy mom birthday present")
+            templateTasks.add("Water plants")
             return templateTasks
         }
     }
 
-    val tasks = mutableListOf<TaskItem>()
+    val tasks = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             // Clear the EditText field
             taskEntryEditTextField.text.clear()
 
-            tasks.add(TaskItem(newTask))
+            tasks.add(newTask)
             adapter.notifyItemChanged(tasks.size - 1)
         }
     }

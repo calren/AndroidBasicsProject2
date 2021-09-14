@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class TaskItemAdapter(private val tasks: List<TaskItem>) :
+class TaskItemAdapter(private val tasks: List<String>) :
     RecyclerView.Adapter<TaskItemAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -17,7 +17,7 @@ class TaskItemAdapter(private val tasks: List<TaskItem>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val task = tasks.get(position)
-        holder.summaryTextView.text = task.taskSummary
+        holder.summaryTextView.text = task
     }
 
     override fun getItemCount(): Int {
