@@ -30,7 +30,8 @@ class TaskItemAdapter(private val tasks: List<String>) :
 
         init {
             itemView.setOnClickListener {
-                Log.i("Caren", "Clicked on item")
+                Log.i("Caren", "Clicked on item number: " + adapterPosition)
+                Log.i("Caren", "Task: " + tasks.get(adapterPosition))
             }
         }
     }
