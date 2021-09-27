@@ -1,8 +1,11 @@
 package com.caren.androidbasicsproject3
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +32,19 @@ class MainActivity : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         tasks.addAll(getTasks())
-        val adapter = TaskItemAdapter(tasks)
+
+        val adapter = TaskItemAdapter(tasks,
+            object: TaskItemAdapter.OnItemClickedListener {
+                override fun onItemClicked(position: Int) {
+                    // 1. Launch EditTaskActivity
+                    val intent = Intent(this@MainActivity,
+                        EditTaskActivity::class.java)
+                    startActivity(intent)
+
+                    // 2. Pass in data for EditTaskActivity to populate EditText field
+                }
+            })
+
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
