@@ -39,9 +39,11 @@ class MainActivity : AppCompatActivity() {
                     // 1. Launch EditTaskActivity
                     val intent = Intent(this@MainActivity,
                         EditTaskActivity::class.java)
-                    startActivity(intent)
 
                     // 2. Pass in data for EditTaskActivity to populate EditText field
+                    intent.putExtra("task", tasks.get(position))
+
+                    startActivity(intent)
                 }
             })
 
