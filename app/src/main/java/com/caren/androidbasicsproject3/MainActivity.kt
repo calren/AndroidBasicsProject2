@@ -1,5 +1,6 @@
 package com.caren.androidbasicsproject3
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +27,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     val tasks = mutableListOf<String>()
+    var adapter: TaskItemAdapter? = null
+
+    var positionOfTaskBeingEdited = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,17 +38,42 @@ class MainActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         tasks.addAll(getTasks())
 
-        val adapter = TaskItemAdapter(tasks,
-            object: TaskItemAdapter.OnItemClickedListener {
+        var resultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // There are no request codes
+                val data: Intent? = result.data
+                if (data != null) {
+                    val newlyEditedTask = data.getStringExtra("newlyEditedTask")
+
+                    Log.i("Caren", "newlyEditedTask: $newlyEditedTask")
+
+                    if (newlyEditedTask != null) {
+                        tasks[positionOfTaskBeingEdited] = newlyEditedTask
+                        // Notify adapter data has changed
+
+                        adapter?.notifyDataSetChanged()
+                    }
+                }
+            }
+        }
+
+        adapter = TaskItemAdapter(tasks,
+            object : TaskItemAdapter.OnItemClickedListener {
                 override fun onItemClicked(position: Int) {
                     // 1. Launch EditTaskActivity
-                    val intent = Intent(this@MainActivity,
-                        EditTaskActivity::class.java)
+                    val intent = Intent(
+                        this@MainActivity,
+                        EditTaskActivity::class.java
+                    )
 
                     // 2. Pass in data for EditTaskActivity to populate EditText field
                     intent.putExtra("task", tasks.get(position))
 
-                    startActivity(intent)
+                    positionOfTaskBeingEdited = position
+
+                    resultLauncher.launch(intent)
                 }
             })
 
@@ -60,10 +90,7 @@ class MainActivity : AppCompatActivity() {
             taskEntryEditTextField.text.clear()
 
             tasks.add(newTask)
-            adapter.notifyItemChanged(tasks.size - 1)
+            adapter?.notifyItemChanged(tasks.size - 1)
         }
-
-        // Be able to click on an item in the list
-           // Launch EditTaskActivity with the string of the task
     }
 }
