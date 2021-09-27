@@ -1,5 +1,6 @@
 package com.caren.androidbasicsproject3
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,5 +27,11 @@ class TaskItemAdapter(private val tasks: List<String>) :
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val summaryTextView = itemView.findViewById<TextView>(R.id.task)
+
+        init {
+            itemView.setOnClickListener {
+                Log.i("Caren", "Clicked on item")
+            }
+        }
     }
 }

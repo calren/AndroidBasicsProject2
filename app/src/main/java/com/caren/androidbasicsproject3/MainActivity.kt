@@ -45,5 +45,8 @@ class MainActivity : AppCompatActivity() {
             tasks.add(newTask)
             adapter.notifyItemChanged(tasks.size - 1)
         }
+
+        // Be able to click on an item in the list
+           // Launch EditTaskActivity with the string of the task
     }
 }
