@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -53,7 +54,8 @@ class TaskListFragment : Fragment() {
         adapter = TaskItemAdapter(tasks,
             object : TaskItemAdapter.OnItemClickedListener {
                 override fun onItemClicked(position: Int) {
-                    // TODO
+                    val action = TaskListFragmentDirections.actionTaskListFragmentToEditTaskFragment()
+                    findNavController().navigate(action)
                 }
             })
 

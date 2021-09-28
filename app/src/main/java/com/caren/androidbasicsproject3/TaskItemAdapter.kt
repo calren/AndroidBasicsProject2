@@ -26,6 +26,10 @@ class TaskItemAdapter(private val tasks: List<String>,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val task = tasks.get(position)
         holder.summaryTextView.text = task
+
+        holder.itemView.setOnClickListener {
+            onItemClickListener.onItemClicked(position)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -34,11 +38,5 @@ class TaskItemAdapter(private val tasks: List<String>,
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val summaryTextView = itemView.findViewById<TextView>(R.id.task)
-
-        init {
-            itemView.setOnClickListener {
-                onItemClickListener.onItemClicked(adapterPosition)
-            }
-        }
     }
 }

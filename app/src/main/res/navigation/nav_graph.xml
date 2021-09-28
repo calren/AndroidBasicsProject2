@@ -7,7 +7,11 @@
     <fragment
         android:id="@+id/taskListFragment"
         android:name="com.caren.androidbasicsproject3.TaskListFragment"
-        android:label="TaskListFragment" />
+        android:label="TaskListFragment" >
+        <action
+            android:id="@+id/action_taskListFragment_to_editTaskFragment"
+            app:destination="@id/editTaskFragment" />
+    </fragment>
     <fragment
         android:id="@+id/editTaskFragment"
         android:name="com.caren.androidbasicsproject3.EditTaskFragment"
