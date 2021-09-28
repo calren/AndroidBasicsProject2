@@ -21,15 +21,13 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class EditTaskFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var taskToEdit: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            taskToEdit = it.getString("taskToEdit").toString()
         }
     }
 
@@ -44,7 +42,7 @@ class EditTaskFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        val taskClickedOn = intent.getStringExtra("task")
-//        findViewById<EditText>(R.id.editText).setText(taskClickedOn)
+        view.findViewById<EditText>(R.id.editText).setText(taskToEdit)
 //
 //        // Pass back the edited task to MainActivity
 //        findViewById<Button>(R.id.button).setOnClickListener {

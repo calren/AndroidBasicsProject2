@@ -15,5 +15,9 @@
     <fragment
         android:id="@+id/editTaskFragment"
         android:name="com.caren.androidbasicsproject3.EditTaskFragment"
-        android:label="EditTaskFragment" />
+        android:label="EditTaskFragment" >
+        <argument
+            android:name="taskToEdit"
+            app:argType="string" />
+    </fragment>
 </navigation>

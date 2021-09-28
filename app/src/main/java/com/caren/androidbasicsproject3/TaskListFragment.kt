@@ -28,10 +28,6 @@ class TaskListFragment : Fragment() {
 
     var positionOfTaskBeingEdited = -1
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,7 +43,9 @@ class TaskListFragment : Fragment() {
         adapter = TaskItemAdapter(tasks,
             object : TaskItemAdapter.OnItemClickedListener {
                 override fun onItemClicked(position: Int) {
-                    val action = TaskListFragmentDirections.actionTaskListFragmentToEditTaskFragment()
+                    val taskToEditString = tasks[position]
+                    val action = TaskListFragmentDirections.actionTaskListFragmentToEditTaskFragment(taskToEditString)
+                    positionOfTaskBeingEdited = position
                     findNavController().navigate(action)
                 }
             })
