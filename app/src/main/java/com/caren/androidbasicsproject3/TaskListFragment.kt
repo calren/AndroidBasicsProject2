@@ -1,11 +1,14 @@
 package com.caren.androidbasicsproject3
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,10 +26,9 @@ private const val ARG_PARAM2 = "param2"
  */
 class TaskListFragment : Fragment() {
 
-    val tasks = mutableListOf<String>()
-    var adapter: TaskItemAdapter? = null
+    private val viewModel: TaskListViewModel by activityViewModels()
 
-    var positionOfTaskBeingEdited = -1
+    var adapter: TaskItemAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,12 +42,12 @@ class TaskListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
 
-        adapter = TaskItemAdapter(tasks,
+        adapter = TaskItemAdapter(viewModel.tasks,
             object : TaskItemAdapter.OnItemClickedListener {
                 override fun onItemClicked(position: Int) {
-                    val taskToEditString = tasks[position]
+                    val taskToEditString = viewModel.tasks[position]
                     val action = TaskListFragmentDirections.actionTaskListFragmentToEditTaskFragment(taskToEditString)
-                    positionOfTaskBeingEdited = position
+                    viewModel.positionOfTaskBeingEdited = position
                     findNavController().navigate(action)
                 }
             })
@@ -62,8 +64,20 @@ class TaskListFragment : Fragment() {
             // Clear the EditText field
             taskEntryEditTextField.text.clear()
 
-            tasks.add(newTask)
-            adapter?.notifyItemChanged(tasks.size - 1)
+            viewModel.tasks.add(newTask)
+            adapter?.notifyItemChanged(viewModel.tasks.size - 1)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("Caren", "onResume TaskListFragment")
+        arguments?.let {
+            val newlyEditedTask = it.getString("newlyEditedTask")
+            if (newlyEditedTask != null) {
+                viewModel.tasks[viewModel.positionOfTaskBeingEdited] = newlyEditedTask
+                adapter?.notifyDataSetChanged()
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,22 +42,18 @@ class EditTaskFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val taskClickedOn = intent.getStringExtra("task")
+
         view.findViewById<EditText>(R.id.editText).setText(taskToEdit)
-//
-//        // Pass back the edited task to MainActivity
-//        findViewById<Button>(R.id.button).setOnClickListener {
-//            // Grab the text in EditText view
-//            val newlyEditedTask = findViewById<EditText>(R.id.editText).text.toString()
-//
-//            val intent = Intent()
-//            intent.putExtra("newlyEditedTask", newlyEditedTask)
-//
-//            setResult(AppCompatActivity.RESULT_OK, intent)
-//
-//            // Close out this activity
-//            finish()
-//        }
+
+        // Pass back the edited task to MainActivity
+        view.findViewById<Button>(R.id.button).setOnClickListener {
+            // Grab the text in EditText view
+            val newlyEditedTask = view.findViewById<EditText>(R.id.editText).text.toString()
+
+            // Go Back to TaskListFragment
+            val action = EditTaskFragmentDirections.actionEditTaskFragmentToTaskListFragment(newlyEditedTask)
+            findNavController().navigate(action)
+        }
     }
 
     companion object {

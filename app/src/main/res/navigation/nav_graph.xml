@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_taskListFragment_to_editTaskFragment"
             app:destination="@id/editTaskFragment" />
+        <argument
+            android:name="newlyEditedTask"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/editTaskFragment"
@@ -19,5 +22,8 @@
         <argument
             android:name="taskToEdit"
             app:argType="string" />
+        <action
+            android:id="@+id/action_editTaskFragment_to_taskListFragment"
+            app:destination="@id/taskListFragment" />
     </fragment>
 </navigation>
